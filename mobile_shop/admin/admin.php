@@ -65,39 +65,42 @@
 		
 	
 	<?php 
-		switch(isset($_GET['page_layout'])) {
-			case "add_product":
-				include_once('add_product.php');
-			break;
-			case "edit_product":
-				include_once('edit_product.php');
-			break;
-			case "product":
-				include_once('product.php');
-			break;
-			default:	
-				include_once('dashboard.php');
-		}
-
-		// or
-		// if(isset($_GET['page_layout'])) {
-		// 	switch(isset($_GET['page'])) {
-		// 		case "add_product":
-		// 			include_once('add_product.php');
-		// 		break;
-		// 		case "edit_product":
-		// 			include_once('edit_product.php');
-		// 		break;
-		// 		case "product":
-		// 			include_once('product.php');
-		// 		break;
-		// 		// default:	
-		// 		// 	include_once('dashboard.php');
-		// 	}
-		// } else {
-		// 	include_once('dashboard.php');
-		// }
-
+		if(isset($_GET['page_layout']))
+			switch($_GET['page_layout']) {
+				// Product
+				case "product":
+					include_once('product.php');
+				break;
+				case "add_product":
+					include_once('add_product.php');
+				break;
+				case "edit_product":
+					include_once('edit_product.php');
+				break;
+				// Category
+				case "category":
+					include_once('category.php');
+				break;
+				case "add_category":
+					include_once('add_category.php');
+				break;
+				case "edit_category":
+					include_once('edit_category.php');
+				break;
+				// User
+				case "user":
+					include_once('user.php');
+				break;
+				case "add_user":
+					include_once('add_user.php');
+				break;
+				case "edit_user":
+					include_once('edit_user.php');
+				break;
+				default:	
+					include_once('dashboard.php');
+			} 
+		else include_once('dashboard.php');
 	?>
 </body>
 
