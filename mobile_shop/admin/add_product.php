@@ -1,4 +1,7 @@
-
+<?php 
+	if(!defined('check')) header('location: index.php')
+	// nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+?>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
