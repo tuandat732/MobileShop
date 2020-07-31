@@ -1,6 +1,6 @@
 <?php 
-	if(!defined('check')) header('location: index.php')
-	// nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+	if(!defined('check')) header('location: index.php');
+    // nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
 ?>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
@@ -41,30 +41,28 @@
 						    </tr>
                             </thead>
                             <tbody>
-                                    <tr>
-                                        <td style="">1</td>
-                                        <td style="">Sản phẩm số 1</td>
-                                        <td style="">18.500.000 vnd</td>
-                                        <td style="text-align: center"><img width="130" height="180" src="img/download.jpeg" /></td>
-                                        <td><span class="label label-success">Còn hàng</span></td>
-                                        <td>Danh mục số 1</td>
-                                        <td class="form-group">
-                                            <a href="product-edit.html" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-                                            <a href="product-edit.html" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                            <td style="">1</td>
-                                            <td style="">Sản phẩm số 2</td>
-                                            <td style="">18.500.000 vnd</td>
-                                            <td style="text-align: center"><img width="130" height="180" src="img/download.jpeg" /></td>
-                                            <td><span class="label label-danger">Hết hàng</span></td>
-                                            <td>Danh mục số 1</td>
+                                <?php
+                                    // fetch dữ liệu product từ db
+                                    $sql = "SELECT * FROM product INNER JOIN category ON product.cat_id = category.cat_id";
+                                    $query = mysqli_query($conn, $sql);
+
+                                    while($product = mysqli_fetch_array($query)) { ?>
+                                        <tr>
+                                            <td style=""><?php echo $product["prd_id"] ?></td>
+                                            <td style=""><?php echo $product["prd_name"] ?></td>
+                                            <td style=""><?php echo $product["prd_price"] ?> vnd</td>
+                                            <td style="text-align: center"><img width="130" height="180" src="img/products/<?php echo $product["prd_image"] ?>" /></td>
+                                            
+                                            <td><span class="label label-<?php echo $product["prd_status"] ?  "success" : "danger"?>">
+                                                <?php echo $product["prd_status"] ? "Còn hang" : "Hết hàng"?>
+                                            </span></td>
+                                            <td><?php echo $product["cat_name"] ?></td>
                                             <td class="form-group">
                                                 <a href="product-edit.html" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
                                                 <a href="product-edit.html" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                                             </td>
                                         </tr>
+                                    <?php } ?>
                                  </tbody>
 						</table>
                     </div>

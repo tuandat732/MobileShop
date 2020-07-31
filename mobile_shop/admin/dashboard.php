@@ -1,7 +1,21 @@
  <!-- main trang admin -->
  <?php 
-	if(!defined('check')) header('location: index.php')
+	if(!defined('check')) header('location: index.php');
 	// nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+	
+	// $sql = "SELECT * FROM product";
+	// $query = mysqli_query($conn, $sql);
+	// $product_count = mysqli_num_rows($query);
+
+	// $sql = "SELECT * FROM comment";
+	// $query = mysqli_query($conn, $sql);
+	// $comment_count = mysqli_num_rows($query);
+
+	// $sql = "SELECT * FROM user";
+	// $query = mysqli_query($conn, $sql);
+	// $user_count = mysqli_num_rows($query);
+
+	$sql = "SELECT * FROM ";
 ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
@@ -26,7 +40,9 @@
 							<svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">120</div>
+							<div class="large"><?php 
+								echo mysqli_num_rows(mysqli_query($conn, $sql."product"));
+							?></div>
 							<div class="text-muted">Sản Phẩm</div>
 						</div>
 					</div>
@@ -39,7 +55,9 @@
 							<svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">52</div>
+							<div class="large"><?php 
+								echo mysqli_num_rows(mysqli_query($conn, $sql."comment"));
+							?></div>
 							<div class="text-muted">Bình Luận</div>
 						</div>
 					</div>
@@ -52,7 +70,9 @@
 							<svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large">24</div>
+							<div class="large"><?php 
+								echo mysqli_num_rows(mysqli_query($conn, $sql."user"));
+							?></div>
 							<div class="text-muted">Thành Viên</div>
 						</div>
 					</div>

@@ -32,6 +32,9 @@
 
 
 <?php 
+    $hihi = 34;
+    echo "hello $hihi";
+    echo 'hello $hiihi';
     echo "TEST DB <br/>";
 
     // Bước 1: kết nối PHP với MySQL

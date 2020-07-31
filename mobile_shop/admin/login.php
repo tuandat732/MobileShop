@@ -25,12 +25,13 @@
 <body>
 
 	<?php
-		$mail_loc = 'spt@gmail.com';
-		$pass_loc = 'hihi123';
 		if(isset($_POST['sbm'])) {
 			$mail = $_POST['mail'];
 			$pass = $_POST['pass'];
-			if($mail == $mail_loc && $pass == $pass_loc){ 
+			$sql = "SELECT * FROM user WHERE user_mail='$mail' AND user_pass='$pass'";
+			$query = mysqli_query($conn, $sql);
+			
+			if(mysqli_num_rows($query)){ 
 				$_SESSION['mail'] = $mail;
 				$_SESSION['pass'] = $pass;
 				$_SESSION['admin'] = TRUE;
