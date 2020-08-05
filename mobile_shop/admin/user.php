@@ -39,6 +39,28 @@
 						    </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                    // fetch dữ liệu product từ db
+                                    $sql = "SELECT * FROM user";
+                                    $query = mysqli_query($conn, $sql);
+
+                                    while($user = mysqli_fetch_array($query)) { ?>
+                                        <tr>
+                                            <td style=""><?php echo $user['user_id'] ?></td>
+                                            <td style=""><?php echo $user['user_full'] ?></td>
+                                            <td style=""><?php echo $user['user_mail'] ?></td>
+                                            <td>
+                                                <span class="label label-<?php echo $user['user_level'] == 1? "danger" : "warning" ?>">
+                                                <?php echo $user['user_level'] == 1 ? "Admin" : "Member" ?>
+                                                </span>
+                                            </td>
+                                            <td class="form-group">
+                                                <a href="thanhvien-edit.html" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+                                                <a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+
                                 <tr>
                                     <td style="">1</td>
                                     <td style="">Admin</td>

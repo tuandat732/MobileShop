@@ -37,22 +37,22 @@
 									</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td style="">1</td>
-											<td style="">Danh mục 1</td>
-											<td class="form-group">
-												<a href="/" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-												<a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-											</td>
-										</tr>
-										<tr>
-											<td style="">2</td>
-											<td style="">Danh mục 2</td>
-											<td class="form-group">
-												<a href="/" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-												<a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-											</td>
-										</tr>
+									<?php
+                    // fetch dữ liệu category từ db
+                    $sql = "SELECT * FROM category ORDER BY cat_id";
+                    $query = mysqli_query($conn, $sql);
+
+                    while($category = mysqli_fetch_array($query)) { ?>
+                        <tr>
+													<td style=""><?php echo $category["cat_id"] ?></td>
+													<td style=""><?php echo $category["cat_name"] ?></td>
+													<td class="form-group">
+														<a href="/" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+														<a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+													</td>
+												</tr>
+                    <?php } ?>
+										
 									</tbody>
 								</table>
 							</div>

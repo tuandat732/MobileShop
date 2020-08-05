@@ -42,8 +42,15 @@
                             </thead>
                             <tbody>
                                 <?php
+                                    // Code phân trang
+                                    $row_per_page = 5;
+                                    $page = 1;
+                                    if(isset($_GET['page'])) {
+                                        $page = $_GET['page'];
+                                    }
+                                    $per_row = ($page-1) * $row_per_page;
                                     // fetch dữ liệu product từ db
-                                    $sql = "SELECT * FROM product INNER JOIN category ON product.cat_id = category.cat_id";
+                                    $sql = "SELECT * FROM product INNER JOIN category ON product.cat_id = category.cat_id ORDER BY prd_id DESC LIMIT $per_row, $row_per_page";
                                     $query = mysqli_query($conn, $sql);
 
                                     while($product = mysqli_fetch_array($query)) { ?>
@@ -54,7 +61,7 @@
                                             <td style="text-align: center"><img width="130" height="180" src="img/products/<?php echo $product["prd_image"] ?>" /></td>
                                             
                                             <td><span class="label label-<?php echo $product["prd_status"] ?  "success" : "danger"?>">
-                                                <?php echo $product["prd_status"] ? "Còn hang" : "Hết hàng"?>
+                                                <?php echo $product["prd_status"] ? "Còn hàng" : "Hết hàng"?>
                                             </span></td>
                                             <td><?php echo $product["cat_name"] ?></td>
                                             <td class="form-group">
@@ -66,15 +73,38 @@
                                  </tbody>
 						</table>
                     </div>
+
+                    <?php 
+                        // Thanh phân trang
+                        $sql = "SELECT * FROM product";
+                        $query = mysqli_query($conn, $sql);
+                        $total_products = mysqli_num_rows($query);
+                        $total_pages = ceil($total_products / $row_per_page);
+
+                        $list_pages = ''; // gán thanh phân trang vào 1 biến để có thể gọi dc ở nhiều nơi mà cần đến
+                        $page_prev = $page == 1 ? 1 : $page -1;
+                        $page_next = $page == $total_pages ? $total_pages : $page+1;
+                        $list_pages .= $page_prev == 1 ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=product&page='.$page_prev.'">&laquo;</a></li>';
+                        for ($page_loop = 1 ; $page_loop <= $total_pages ; $page_loop++){
+                            $active = $page_loop == $page ? 'active' : ''; 
+                            $list_pages .= '<li class="page-item '.$active.'"><a class="page-link" href="index.php?page_layout=product&page='.$page_loop.'">'.$page_loop.'</a></li>';
+                        } 
+                        $list_pages .= $page_next == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=product&page='.$page_next.'">&raquo;</a></li>';
+                    ?>
+
                     <div class="panel-footer">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
+                                <!-- render thanh phân trang -->
+                                <?php echo $list_pages ?>
+                            </ul>
+                            <!-- <ul class="pagination">
                                 <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                                 <li class="page-item"><a class="page-link" href="#">1</a></li>
                                 <li class="page-item"><a class="page-link" href="#">2</a></li>
                                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                                 <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
+                            </ul> -->
                         </nav>
                     </div>
 				</div>
