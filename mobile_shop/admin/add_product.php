@@ -1,6 +1,63 @@
 <?php 
-	if(!defined('check')) header('location: index.php')
-	// nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+	if(!defined('check')) header('location: index.php');
+    // nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+    
+    if(isset($_POST["sbm"])){
+        //basic
+        $prd_name= $_POST['prd_name'];
+        $prd_price= $_POST['prd_price'];
+        $prd_warranty= $_POST['prd_warranty'];
+        $prd_accessories= $_POST['prd_accessories'];
+        $prd_promotion= $_POST['prd_promotion'];
+        $prd_new= $_POST['prd_new'];
+        
+        //advanced
+        $prd_image=$_FILES['prd_image']['name'];
+        echo $tmp_name=$_FILES['prd_image']['tmp_name'];
+        move_uploaded_file($tmp_name,'img/products/'.$prd_image);
+        $cat_id=$_POST['cat_id'];
+        $prd_status = $_POST['prd_status'];
+        
+        // get value check box
+        if(isset($_POST['prd_featured'])){
+            $prd_featured=$_POST['prd_featured'];
+        }
+        else{
+            $prd_featured=0;
+        }
+
+        $prd_details = $_POST['prd_details'];
+
+        $sql = "INSERT INTO product (
+            prd_name, 
+            prd_price,
+            prd_warranty,
+            prd_accessories,
+            prd_promotion,
+            prd_new,
+            prd_image,
+            cat_id,
+            prd_status,
+            prd_featured,
+            prd_details
+        ) 
+        VALUES (
+            '$prd_name',
+            '$prd_price', 
+            '$prd_warranty',
+            '$prd_accessories',
+            '$prd_promotion',
+            '$prd_new',
+            '$prd_image',
+            '$cat_id',
+            '$prd_status',
+            '$prd_featured',
+            '$prd_details')";
+
+        $query = mysqli_query($conn, $sql);
+        
+        header('location: index.php?page_layout=product');
+    }
 ?>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
@@ -57,16 +114,21 @@
                                     <input required name="prd_image" type="file">
                                     <br>
                                     <div>
-                                        <img src="img/download.jpeg">
+                                        <img src="img/product/<?php echo $_FILES['prd_image']['name']?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Danh mục</label>
                                     <select name="cat_id" class="form-control">
-                                        <option value=1>iPhone</option>
-                                        <option value=2>Samsung</option>
-                                        <option value=3>Nokia</option>
-                                        <option value=4>LG</option>
+                                        <?php
+                                            $sql = 'SELECT * FROM CATEGORY ORDER BY cat_id ASC';
+                                            $query = mysqli_query($conn, $sql);
+                                             while($category = mysqli_fetch_array($query)){
+                                        ?>
+                                            <option value=<?php echo $category['cat_id'] ?>>
+                                                <?php echo $category['cat_name'] ?>
+                                            </option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                                 
@@ -89,6 +151,9 @@
                                 <div class="form-group">
                                         <label>Mô tả sản phẩm</label>
                                         <textarea required name="prd_details" class="form-control" rows="3"></textarea>
+                                        <script>
+                                            CKEDITOR.replace("prd_details");
+                                        </script>
                                     </div>
                                 <button name="sbm" type="submit" class="btn btn-success">Thêm mới</button>
                                 <button type="reset" class="btn btn-default">Làm mới</button>

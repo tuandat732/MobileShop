@@ -1,3 +1,5 @@
+<script src="ckeditor/ckeditor.js" ></script>
+
 <?php
     // include file connect mysql - connect ở file index để ko cần connect thủ công trong nhiều file
 	include_once('connect.php');

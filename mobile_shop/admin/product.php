@@ -1,6 +1,13 @@
 <?php 
 	if(!defined('check')) header('location: index.php');
     // nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+
+    // DELETE PRODUCT
+    if(isset($_GET['prd_id'])) {
+        $prd_id = $_GET['prd_id'];
+        $sql = "DELETE FROM product WHERE prd_id = '$prd_id'";
+        $query = mysqli_query($conn, $sql);
+    }
 ?>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
@@ -17,7 +24,7 @@
 			</div>
 		</div><!--/.row-->
 		<div id="toolbar" class="btn-group">
-            <a href="product-add.html" class="btn btn-success">
+            <a href="index.php?page_layout=add_product" class="btn btn-success">
                 <i class="glyphicon glyphicon-plus"></i> Thêm sản phẩm
             </a>
         </div>
@@ -65,8 +72,8 @@
                                             </span></td>
                                             <td><?php echo $product["cat_name"] ?></td>
                                             <td class="form-group">
-                                                <a href="product-edit.html" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-                                                <a href="product-edit.html" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                                                <a href="index.php?page_layout=edit_product&prd_id=<?php echo $product['prd_id']?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+                                                <a href="index.php?page_layout=product&prd_id=<?php echo $product['prd_id']?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>
