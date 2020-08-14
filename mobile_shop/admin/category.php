@@ -21,7 +21,7 @@ if (!defined('check')) header('location: index.php')
 	</div>
 	<!--/.row-->
 	<div id="toolbar" class="btn-group">
-		<a href="category-add.html" class="btn btn-success">
+		<a href="index.php?page_layout=add_category" class="btn btn-success">
 			<i class="glyphicon glyphicon-plus"></i> Thêm danh mục
 		</a>
 	</div>
@@ -49,8 +49,8 @@ if (!defined('check')) header('location: index.php')
 									<td style=""><?php echo $category["cat_id"] ?></td>
 									<td style=""><?php echo $category["cat_name"] ?></td>
 									<td class="form-group">
-										<a href="/" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-										<a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+										<a href="index.php?page_layout=edit_category&cat_id=<?php echo $category['cat_id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+										<a href="/index.php?page_layout=category&cat_id=<?php echo $category['cat_id'] ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
 									</td>
 								</tr>
 							<?php } ?>
