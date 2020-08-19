@@ -1,6 +1,13 @@
 <?php
-if (!defined('check')) header('location: index.php')
-// nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+if (!defined('check')) header('location: index.php');
+// nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn
+
+	if(isset($_GET['cat_id'])) {
+		$cat_id = $_GET['cat_id'];
+		$sql = "DELETE FROM category WHERE cat_id = '$cat_id'";
+		$query = mysqli_query($conn,$sql);
+		header('location: index.php?page_layout=category');
+	}
 ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -41,7 +48,13 @@ if (!defined('check')) header('location: index.php')
 						<tbody>
 							<?php
 							// fetch dữ liệu category từ db
-							$sql = "SELECT * FROM category ORDER BY cat_id";
+							$row_per_page = 10;
+							$page = 1;
+							if (isset($_GET['page'])) {
+								$page = $_GET['page'];
+							}
+							$per_row = ($page - 1) * $row_per_page;
+							$sql = "SELECT * FROM category ORDER BY cat_id LIMIT $per_row,$row_per_page";
 							$query = mysqli_query($conn, $sql);
 
 							while ($category = mysqli_fetch_array($query)) { ?>
@@ -50,7 +63,7 @@ if (!defined('check')) header('location: index.php')
 									<td style=""><?php echo $category["cat_name"] ?></td>
 									<td class="form-group">
 										<a href="index.php?page_layout=edit_category&cat_id=<?php echo $category['cat_id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-										<a href="/index.php?page_layout=category&cat_id=<?php echo $category['cat_id'] ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+										<a href="index.php?page_layout=category&cat_id=<?php echo $category['cat_id'] ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
 									</td>
 								</tr>
 							<?php } ?>
@@ -58,14 +71,29 @@ if (!defined('check')) header('location: index.php')
 						</tbody>
 					</table>
 				</div>
+
+				<?php
+				// Thanh phân trang
+				$sql = "SELECT * FROM category";
+				$query = mysqli_query($conn, $sql);
+				$total_products = mysqli_num_rows($query);
+				$total_pages = ceil($total_products / $row_per_page);
+
+				$list_pages = ''; // gán thanh phân trang vào 1 biến để có thể gọi dc ở nhiều nơi mà cần đến
+				$page_prev = $page == 1 ? 1 : $page - 1;
+				$page_next = $page == $total_pages ? $total_pages : $page + 1;
+				$list_pages .= $page_prev == 1 ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&page=' . $page_prev . '">&laquo;</a></li>';
+				for ($page_loop = 1; $page_loop <= $total_pages; $page_loop++) {
+					$active = $page_loop == $page ? 'active' : '';
+					$list_pages .= '<li class="page-item ' . $active . '"><a class="page-link" href="index.php?page_layout=category&page=' . $page_loop . '">' . $page_loop . '</a></li>';
+				}
+				$list_pages .= $page_next == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&page=' . $page_next . '">&raquo;</a></li>';
+				?>
+
 				<div class="panel-footer">
 					<nav aria-label="Page navigation example">
 						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+							<?php echo $list_pages ?>
 						</ul>
 					</nav>
 				</div>

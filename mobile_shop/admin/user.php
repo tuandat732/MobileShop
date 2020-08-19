@@ -1,6 +1,15 @@
 <?php
-if (!defined('check')) header('location: index.php')
+if (!defined('check')) header('location: index.php');
 // nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+
+// delete user if url have query string user_id
+if(isset($_GET['user_id'])) {
+  $user_id = $_GET['user_id'];
+  $sql = "DELETE FROM user WHERE user_id = '$user_id'";
+  $query = mysqli_query($conn,$sql);
+  header('location: index.php?page_layout=category');
+}
+
 ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -64,8 +73,8 @@ if (!defined('check')) header('location: index.php')
                     </span>
                   </td>
                   <td class="form-group">
-                    <a href="thanhvien-edit.html" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-                    <a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="index.php?page_layout=edit_user&user_id=<?php echo $user['user_id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <a href="index.php?page_layout=user&user_id=<?php echo $user['user_id'] ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                   </td>
                 </tr>
               <?php } ?>

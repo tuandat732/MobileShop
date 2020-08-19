@@ -1,6 +1,29 @@
 <?php
-if (!defined('check')) header('location: index.php')
-// nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+if (!defined('check')) header('location: index.php');
+// nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn
+
+$err = FALSE;
+if (isset($_POST['sbm'])) {
+   $user_full = $_POST['user_full'];
+   $user_mail = $_POST['user_mail'];
+   $user_pass = $_POST['user_pass'];
+   $user_re_pass = $_POST['user_re_pass'];
+   $user_level = $_POST['user_level'];
+
+   // check email đã tồn tại hay chưa
+   $queryCheckMail = mysqli_query($conn,"SELECT * FROM user WHERE user_mail = '$user_mail'");
+   // if đã tồn tại email
+   if(mysqli_num_rows($queryCheckMail)) $err = TRUE;
+   else {
+       // insert new user
+       $sql = "INSERT INTO user (user_full,user_mail,user_pass,user_level) 
+       VALUES ('$user_full','$user_mail','$user_pass','$user_level')";
+       mysqli_query($conn,$sql);
+
+       header("location: index.php?page_layout=user");
+   }
+}
+
 ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -26,7 +49,7 @@ if (!defined('check')) header('location: index.php')
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="col-md-8">
-                        <div class="alert alert-danger">Email đã tồn tại !</div>
+                        <?php if($err) echo '<div class="alert alert-danger">Email đã tồn tại !</div>' ?>
                         <form role="form" method="post">
                             <div class="form-group">
                                 <label>Họ & Tên</label>

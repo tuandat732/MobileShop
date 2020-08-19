@@ -59,7 +59,7 @@
                 include_once('modules/cart/cart.php');
                 break;
               case "category":
-                include_once('modules/category/category.php');
+                include_once('modules/menu/category.php');
                 break;
               case "product":
                 include_once('modules/product/product.php');

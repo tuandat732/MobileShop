@@ -1,6 +1,20 @@
 <?php
-if (!defined('check')) header('location: index.php')
+if (!defined('check')) header('location: index.php');
 // nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
+
+$err = FALSE;
+if (isset($_POST['sbm'])) {
+	$cat_name = $_POST['cat_name'];
+	$sql = "SELECT * FROM category WHERE cat_name = '$cat_name'";
+	$query = mysqli_query($conn, $sql);
+	// if tên category ko bị trùng
+	if (!mysqli_num_rows($query)) {
+		mysqli_query($conn, "INSERT INTO category (cat_name) VALUES ('$cat_name')");
+		header('location: index.php?page_layout=category');
+	} else {
+		$err = TRUE;
+	}
+}
 ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -26,7 +40,9 @@ if (!defined('check')) header('location: index.php')
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<div class="col-md-8">
-						<div class="alert alert-danger">Danh mục đã tồn tại !</div>
+						<?php if ($err) { ?>
+							<div class="alert alert-danger">Danh mục đã tồn tại !</div>
+						<?php } ?>
 						<form role="form" method="post">
 							<div class="form-group">
 								<label>Tên danh mục:</label>
