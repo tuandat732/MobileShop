@@ -1,4 +1,10 @@
 <?php
+    //time in php
+    date_default_timezone_set('asia/bangkok');
+    echo date("Y-m-d H:i:s");
+?>
+
+<?php
 // // TEST IN lib.php
 
 // session_start(); // khai báo thư viện session

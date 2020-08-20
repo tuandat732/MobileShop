@@ -12,7 +12,7 @@ if (isset($_GET['cat_id'])) {
 }
 
 ?>
-<!--	List Product	-->z
+<!--	List Product	-->
 <div class="products">
     <h3><?php echo $category['cat_name'] ?> (hiện có <?php echo mysqli_num_rows($query_product) ?> sản phẩm)</h3>
     <?php

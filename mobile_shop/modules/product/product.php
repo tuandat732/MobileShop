@@ -1,10 +1,23 @@
 <!--	List Product	-->
 <?php
-    if(isset($_GET['prd_id'])) {
-        $prd_id = $_GET['prd_id'];
-        $sql = "SELECT * FROM product WHERE prd_id = $prd_id";
-        $product = mysqli_fetch_array(mysqli_query($conn,$sql));
+if (isset($_GET['prd_id'])) {
+    $prd_id = $_GET['prd_id'];
+    $sql = "SELECT * FROM product WHERE prd_id = $prd_id";
+    $product = mysqli_fetch_array(mysqli_query($conn, $sql));
+
+    // POST COMMENT ==============================
+    if (isset($_POST["sbm"])) {
+        $comm_name = $_POST['comm_name'];
+        $comm_mail = $_POST['comm_mail'];
+        date_default_timezone_set('asia/Ho_Chi_Minh');
+        $comm_date = date("Y-m-d H:i:s");
+        $comm_details = $_POST['comm_details'];
+
+        $sql = "INSERT INTO comment (comm_name,comm_mail,comm_date,comm_details,prd_id) 
+        VALUES ('$comm_name','$comm_mail','$comm_date','$comm_details','$prd_id')";
+        mysqli_query($conn, $sql);
     }
+}
 ?>
 <div id="product">
     <div id="product-head" class="row">
@@ -19,7 +32,7 @@
                 <li><span>Tình trạng:</span> <?php echo $product['prd_new'] ?></li>
                 <li><span>Khuyến Mại:</span> <?php echo $product['prd_promotion'] ?></li>
                 <li id="price">Giá Bán (chưa bao gồm VAT)</li>
-                <li id="price-number"><?php echo number_format($product['prd_price'], 2, ',', '.')?>đ</li>
+                <li id="price-number"><?php echo number_format($product['prd_price'], 2, ',', '.') ?>đ</li>
                 <li id="status"><?php echo $product['prd_status'] == 1 ? "Còn hàng" : "Hết hàng"  ?></li>
             </ul>
             <div id="add-cart"><a href="#">Mua ngay</a></div>
@@ -58,55 +71,27 @@
     <!--	Comments List	-->
     <div id="comments-list" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="comment-item">
-                <ul>
-                    <li><b>Nguyễn Văn A</b></li>
-                    <li>2018-01-03 20:40:10</li>
-                    <li>
-                        <p>Kiểu dáng đẹp, cảm ứng rất nhạy, cầm trên tay cảm giác không bị cấn. Chụp ảnh tương đối nét, chơi game rất phê. Nếu giá mềm một chút thì sẽ bán khá chạy. Một sản phẩm tốt mà mọi người có thể cân nhắc.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="comment-item">
-                <ul>
-                    <li><b>Nguyễn Văn A</b></li>
-                    <li>2018-01-03 20:40:10</li>
-                    <li>
-                        <p>Kiểu dáng đẹp, cảm ứng rất nhạy, cầm trên tay cảm giác không bị cấn. Chụp ảnh tương đối nét, chơi game rất phê. Nếu giá mềm một chút thì sẽ bán khá chạy. Một sản phẩm tốt mà mọi người có thể cân nhắc.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="comment-item">
-                <ul>
-                    <li><b>Nguyễn Văn A</b></li>
-                    <li>2018-01-03 20:40:10</li>
-                    <li>
-                        <p>Kiểu dáng đẹp, cảm ứng rất nhạy, cầm trên tay cảm giác không bị cấn. Chụp ảnh tương đối nét, chơi game rất phê. Nếu giá mềm một chút thì sẽ bán khá chạy. Một sản phẩm tốt mà mọi người có thể cân nhắc.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="comment-item">
-                <ul>
-                    <li><b>Nguyễn Văn A</b></li>
-                    <li>2018-01-03 20:40:10</li>
-                    <li>
-                        <p>Kiểu dáng đẹp, cảm ứng rất nhạy, cầm trên tay cảm giác không bị cấn. Chụp ảnh tương đối nét, chơi game rất phê. Nếu giá mềm một chút thì sẽ bán khá chạy. Một sản phẩm tốt mà mọi người có thể cân nhắc.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="comment-item">
-                <ul>
-                    <li><b>Nguyễn Văn A</b></li>
-                    <li>2018-01-03 20:40:10</li>
-                    <li>
-                        <p>Kiểu dáng đẹp, cảm ứng rất nhạy, cầm trên tay cảm giác không bị cấn. Chụp ảnh tương đối nét, chơi game rất phê. Nếu giá mềm một chút thì sẽ bán khá chạy. Một sản phẩm tốt mà mọi người có thể cân nhắc.</p>
-                    </li>
-                </ul>
-            </div>
+            <?php
+            if (isset($prd_id)) {
+                $sql = "SELECT * FROM comment WHERE prd_id = $prd_id ORDER BY comm_id DESC";
+                $query = mysqli_query($conn, $sql);
+                while ($comment = mysqli_fetch_array($query)) { ?>
+                    <div class="comment-item">
+                        <ul>
+                            <li><b><?php echo $comment['comm_name'] ?></b></li>
+                            <li><?php echo $comment['comm_date'] ?></li>
+                            <li>
+                                <p><?php echo $comment['comm_details'] ?></p>
+                            </li>
+                        </ul>
+                    </div>
+            <?php }
+            }
+            ?>
         </div>
     </div>
-    <!--	End Comments List	-->
 </div>
+
 <!--	End Product	-->
 <div id="pagination">
     <ul class="pagination">

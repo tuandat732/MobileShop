@@ -1,6 +1,6 @@
 <div id="logo-2" class="col-lg-3 col-md-6 col-sm-12">
   <h2>
-    <a href="#"><img src="images/logo-footer.png" /></a>
+    <a href="index.php"><img src="images/logo-footer.png" /></a>
   </h2>
   <p>
     Vietpro Academy thành lập năm 2009. Chúng tôi đào tạo chuyên sâu
