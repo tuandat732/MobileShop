@@ -12,7 +12,7 @@ if (isset($_SESSION['cart'])) { ?>
 
             <?php
             $cart = $_SESSION['cart'];
-            $total = 0;
+            $total_price = 0;
             $arr_prd_id = array();
             foreach ($cart as $prd_id => $count) {
                 $arr_prd_id[] = $prd_id;
@@ -21,7 +21,7 @@ if (isset($_SESSION['cart'])) { ?>
             $sql = "SELECT * FROM product WHERE prd_id IN ($query_in)";
             $query = mysqli_query($conn, $sql);
             while($product = mysqli_fetch_array($query)) { 
-                $total += (int)$product['prd_price'] * $cart[$product['prd_id']];
+                $total_price += (int)$product['prd_price'] * $cart[$product['prd_id']];
                 ?>
                 <div class="cart-item row">
                     <div class="cart-thumb col-lg-7 col-md-7 col-sm-12">
@@ -40,7 +40,7 @@ if (isset($_SESSION['cart'])) { ?>
                     <button id="update-cart" class="btn btn-success" type="submit" name="sbm">Cập nhật giỏ hàng</button>
                 </div>
                 <div class="cart-total col-lg-2 col-md-2 col-sm-12"><b>Tổng cộng:</b></div>
-                <div class="cart-price col-lg-3 col-md-3 col-sm-12"><b><?php echo number_format($total, 2, ',', '.') ?>đ</b></div>
+                <div class="cart-price col-lg-3 col-md-3 col-sm-12"><b><?php echo number_format($total_price, 2, ',', '.') ?>đ</b></div>
             </div>
         </form>
 
