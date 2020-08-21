@@ -35,7 +35,7 @@ if (isset($_GET['prd_id'])) {
                 <li id="price-number"><?php echo number_format($product['prd_price'], 2, ',', '.') ?>đ</li>
                 <li id="status"><?php echo $product['prd_status'] == 1 ? "Còn hàng" : "Hết hàng"  ?></li>
             </ul>
-            <div id="add-cart"><a href="#">Mua ngay</a></div>
+            <div id="add-cart"><a href="modules/cart/cart_add.php?prd_id=<?php echo $prd_id ?>">Mua ngay</a></div>
         </div>
     </div>
     <div id="product-body" class="row">

@@ -1,7 +1,48 @@
 <?php
-    //time in php
-    date_default_timezone_set('asia/bangkok');
-    echo date("Y-m-d H:i:s");
+// $_SESSION["cart"] = array(
+//     array(
+//         "id"=>,
+//         "count"=>,
+//     )
+// );
+
+?>
+
+<?php
+// ======================ARRAY ADVANDED ============================
+$frontend = array(
+    "html",
+    'ccs',
+    'bootstrap',
+);
+
+$khoa_hoc = array(
+    "giaidoan1" => $frontend,
+    "giaidoan2" => "backend",
+);
+
+$khoa_hoc_1 = array(
+    "giaidoan1" =>  array(
+        "html",
+        'ccs',
+        'bootstrap',
+    ),
+    "giaidoan2" => "backend",
+);
+
+echo $khoa_hoc['giaidoan1'][0]."</br>";
+
+foreach($khoa_hoc['giaidoan1'] as $item ) {
+    echo $item."</br>";
+}
+
+?>
+
+
+<?php
+//time in php
+date_default_timezone_set('asia/bangkok');
+echo date("Y-m-d H:i:s");
 ?>
 
 <?php
@@ -25,46 +66,46 @@
 
 <?php
 
-    // // CONST
-    // define('PI',3.14);
-    // if(defined('PI')) // kiểm tra khai báo của hằng số => các biến thường thì dùng isset
-    //     echo PI;
+// // CONST
+// define('PI',3.14);
+// if(defined('PI')) // kiểm tra khai báo của hằng số => các biến thường thì dùng isset
+//     echo PI;
 
 
-    // header('location: lib.php'); // chuyển hướng trang web sang url /lib.php
-    // // => dùng để chuyển trang
+// header('location: lib.php'); // chuyển hướng trang web sang url /lib.php
+// // => dùng để chuyển trang
 
 ?> 
 
 
-<?php 
-    $hihi = 34;
-    echo "hello $hihi";
-    echo 'hello $hiihi';
-    echo "TEST DB <br/>";
+<?php
+// $hihi = 34;
+// echo "hello $hihi";
+// echo 'hello $hiihi';
+// echo "TEST DB <br/>";
 
-    // Bước 1: kết nối PHP với MySQL
-    $conn = mysqli_connect('localhost','root','','hocmysql');
+// // Bước 1: kết nối PHP với MySQL
+// $conn = mysqli_connect('localhost','root','','hocmysql');
 
-    // Bước 2: Khai báo ngôn ngữ sử dụng trong CSDL cho PHP 
-    mysqli_query($conn,"SET NAMES 'utf8'");
+// // Bước 2: Khai báo ngôn ngữ sử dụng trong CSDL cho PHP 
+// mysqli_query($conn,"SET NAMES 'utf8'");
 
-    // Bước 3: Viết truy vấn SQL
-    $sql = "SELECT * FROM thanhvien";
+// // Bước 3: Viết truy vấn SQL
+// $sql = "SELECT * FROM thanhvien";
 
-    // Bước 4: thực thi truy vấn
-    $query = mysqli_query($conn, $sql);
-    
-    // convert to arr
-    $data = mysqli_fetch_array($query); // fetch này chỉ lấy record đầu tiên trong db và lưu vào bộ đệm
-    // => dùng while để lấy dc full record ra
+// // Bước 4: thực thi truy vấn
+// $query = mysqli_query($conn, $sql);
 
-    // hàm lấy length bản ghi
-    $len = mysqli_num_rows($query);
-    echo 'len: '.$len.'<br/>';
-    
-    while($data = mysqli_fetch_array($query)) {
-        echo $data[1]."<br/>".$data['mat_khau'].'<br/>';
-    }
+// // convert to arr
+// $data = mysqli_fetch_array($query); // fetch này chỉ lấy record đầu tiên trong db và lưu vào bộ đệm
+// // => dùng while để lấy dc full record ra
+
+// // hàm lấy length bản ghi
+// $len = mysqli_num_rows($query);
+// echo 'len: '.$len.'<br/>';
+
+// while($data = mysqli_fetch_array($query)) {
+//     echo $data[1]."<br/>".$data['mat_khau'].'<br/>';
+// }
 
 ?>

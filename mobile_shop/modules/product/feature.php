@@ -12,9 +12,9 @@
       <?php } ?>
 
       <div class="product-item card text-center">
-        <a href="#"><img src="admin/img/products/<?php echo $product["prd_image"] ?>" /></a>
-        <h4><a href="#"><?php echo $product["prd_name"] ?></a></h4>
-        <p>Giá Bán: <span><?php echo $product['prd_price'] ?>đ</span></p>
+        <a href="?page_layout=product&prd_id=<?php echo $product["prd_id"] ?>"><img src="admin/img/products/<?php echo $product["prd_image"] ?>" /></a>
+        <h4><a href="?page_layout=product&prd_id=<?php echo $product["prd_id"] ?>"><?php echo $product["prd_name"] ?></a></h4>
+        <p>Giá Bán: <span><?php echo number_format($product['prd_price'], 2, ',', '.') ?>đ</span></p>
       </div>
       <?php
       $i++;

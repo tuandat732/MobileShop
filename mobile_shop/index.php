@@ -1,4 +1,5 @@
 <?php
+  session_start();
   include_once("config/connect.php");
 ?>
 
@@ -55,6 +56,9 @@
           <?php
           if (isset($_GET['page_layout'])) {
             switch ($_GET['page_layout']) {
+              case "cart_add":
+                include_once("modules/cart/cart_add.php");
+                break;
               case "cart":
                 include_once('modules/cart/cart.php');
                 break;
