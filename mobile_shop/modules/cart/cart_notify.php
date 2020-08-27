@@ -1,7 +1,12 @@
 <?php
   if(isset($_SESSION['cart'])) {
+    if (isset($_POST['sbm']) && isset($_POST['qtt'])) {
+      $cart = $_POST['qtt'];
+    } else {
+      $cart = $_SESSION['cart'];
+    }
     $total_notify = 0;
-    foreach($_SESSION['cart'] as $item => $value) {
+    foreach($cart as $item => $value) {
       $total_notify+= $value;
     }
   }

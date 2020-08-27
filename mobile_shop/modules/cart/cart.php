@@ -1,7 +1,15 @@
 <!--	Cart	-->
 
 <?php
-if (isset($_SESSION['cart'])) { ?>
+if (isset($_SESSION['cart'])) {
+    // Cập nhật giỏ hàng khi user thay đổi số lượng
+    if (isset($_POST['sbm']) && isset($_POST['qtt'])) {
+        foreach ($_POST['qtt'] as $prd_id => $new_qtt) {
+            $_SESSION['cart'][$prd_id] = $new_qtt;
+        }
+    }
+
+?>
     <div id="my-cart">
         <div class="row">
             <div class="cart-nav-item col-lg-7 col-md-7 col-sm-12">Thông tin sản phẩm</div>
@@ -11,30 +19,34 @@ if (isset($_SESSION['cart'])) { ?>
         <form method="post">
 
             <?php
+            // render cart
             $cart = $_SESSION['cart'];
             $total_price = 0;
             $arr_prd_id = array();
             foreach ($cart as $prd_id => $count) {
                 $arr_prd_id[] = $prd_id;
             };
-            $query_in = implode(', ',$arr_prd_id);
-            $sql = "SELECT * FROM product WHERE prd_id IN ($query_in)";
-            $query = mysqli_query($conn, $sql);
-            while($product = mysqli_fetch_array($query)) { 
-                $total_price += (int)$product['prd_price'] * $cart[$product['prd_id']];
-                ?>
-                <div class="cart-item row">
-                    <div class="cart-thumb col-lg-7 col-md-7 col-sm-12">
-                        <img src="admin/img/products/<?php echo $product['prd_image'] ?>">
-                        <h4><?php echo $product['prd_name'] ?></h4>
-                    </div>
+            if (count($arr_prd_id)) {
+                $query_in = implode(', ', $arr_prd_id);
+                $sql = "SELECT * FROM product WHERE prd_id IN ($query_in)";
+                $query = mysqli_query($conn, $sql);
+                while ($product = mysqli_fetch_array($query)) {
+                    $total_price += (int)$product['prd_price'] * $cart[$product['prd_id']];
+            ?>
+                    <div class="cart-item row">
+                        <div class="cart-thumb col-lg-7 col-md-7 col-sm-12">
+                            <img src="admin/img/products/<?php echo $product['prd_image'] ?>">
+                            <h4><?php echo $product['prd_name'] ?></h4>
+                        </div>
 
-                    <div class="cart-quantity col-lg-2 col-md-2 col-sm-12">
-                        <input type="number" id="quantity" class="form-control form-blue quantity" value="<?php echo $cart[$product['prd_id']] ?>" min="1">
+                        <div class="cart-quantity col-lg-2 col-md-2 col-sm-12">
+                            <input name="qtt[<?php echo $product['prd_id'] ?>]" type="number" id="quantity" class="form-control form-blue quantity" value="<?php echo $cart[$product['prd_id']] ?>" min="1">
+                        </div>
+                        <div class="cart-price col-lg-3 col-md-3 col-sm-12"><b><?php echo number_format($product['prd_price'] * $cart[$product['prd_id']], 2, ',', '.') ?>đ</b>
+                            <a href="modules/cart/del_cart.php?prd_id=<?php echo $product['prd_id'] ?>">Xóa</a></div>
                     </div>
-                    <div class="cart-price col-lg-3 col-md-3 col-sm-12"><b><?php echo number_format($product['prd_price'], 2, ',', '.') ?>đ</b><a href="#">Xóa</a></div>
-                </div>
-            <?php } ?>
+            <?php }
+            } ?>
             <div class="row">
                 <div class="cart-thumb col-lg-7 col-md-7 col-sm-12">
                     <button id="update-cart" class="btn btn-success" type="submit" name="sbm">Cập nhật giỏ hàng</button>

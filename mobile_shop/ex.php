@@ -1,3 +1,20 @@
+<form method="post">
+    Xuân <input type="checkbox" name="mua[]" value="Xuân">
+    Hạ <input type="checkbox" name="mua[]" value="Hạ">
+    Thu <input type="checkbox" name="mua[]" value="Thu">
+    Đông <input type="checkbox" name="mua[]" value="Đông">
+    <input type="submit" value="Gửi" name="sbm" >
+</form>
+
+<?php
+    if(isset($_POST['sbm'])) {
+        $mua = $_POST['mua'];
+        foreach($mua as $i) {
+            echo $i;
+        }
+    }
+?>
+
 <?php
 // $_SESSION["cart"] = array(
 //     array(
@@ -10,39 +27,39 @@
 
 <?php
 // ======================ARRAY ADVANDED ============================
-$frontend = array(
-    "html",
-    'ccs',
-    'bootstrap',
-);
+// $frontend = array(
+//     "html",
+//     'ccs',
+//     'bootstrap',
+// );
 
-$khoa_hoc = array(
-    "giaidoan1" => $frontend,
-    "giaidoan2" => "backend",
-);
+// $khoa_hoc = array(
+//     "giaidoan1" => $frontend,
+//     "giaidoan2" => "backend",
+// );
 
-$khoa_hoc_1 = array(
-    "giaidoan1" =>  array(
-        "html",
-        'ccs',
-        'bootstrap',
-    ),
-    "giaidoan2" => "backend",
-);
+// $khoa_hoc_1 = array(
+//     "giaidoan1" =>  array(
+//         "html",
+//         'ccs',
+//         'bootstrap',
+//     ),
+//     "giaidoan2" => "backend",
+// );
 
-echo $khoa_hoc['giaidoan1'][0]."</br>";
+// echo $khoa_hoc['giaidoan1'][0]."</br>";
 
-foreach($khoa_hoc['giaidoan1'] as $item ) {
-    echo $item."</br>";
-}
+// foreach($khoa_hoc['giaidoan1'] as $item ) {
+//     echo $item."</br>";
+// }
 
 ?>
 
 
 <?php
 //time in php
-date_default_timezone_set('asia/bangkok');
-echo date("Y-m-d H:i:s");
+// date_default_timezone_set('asia/bangkok');
+// echo date("Y-m-d H:i:s");
 ?>
 
 <?php
