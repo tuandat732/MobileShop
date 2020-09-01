@@ -1,4 +1,6 @@
 <?php
+  ob_start(); 
+  // ob_start này sẽ giúp ta đặt thoải mái session_start, header vào bất cứ chỗ nào chứ ko bắt buộc ở trên cùng, ko dc dưới html code và print
   session_start();
   include_once("config/connect.php");
 ?>
@@ -16,6 +18,7 @@
   <link rel="stylesheet" href="css/product.css" />
   <link rel="stylesheet" href="css/search.css" />
   <link rel="stylesheet" href="css/success.css" />
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="js/jquery-3.3.1.js"></script>
   <script src="js/bootstrap.js"></script>
 </head>
@@ -72,7 +75,7 @@
                 include_once('modules/search/search.php');
                 break;
               case "success":
-                include_once('modules/success/success.php');
+                include_once('modules/cart/success.php');
                 break;
               default:
                 include_once('modules/product/feature.php');

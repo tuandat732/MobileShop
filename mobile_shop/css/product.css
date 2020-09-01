@@ -69,6 +69,168 @@
 	border-color:#dee2e6;
 	color:#FFF;}
 
+#stars .fa{
+  font-size: 20px;
+  color:#FF9800;
+  /* float: left; */
+  cursor: pointer;
+}
+
+#rate-box{
+	background-color: white !important;
+	margin-top: 10px;
+	padding: 10px 0px;
+	border-radius: 5px;
+}
+
+.rate-user {
+	display: flex;
+	width: 100%;
+}
+
+.rate-detail {
+	width: 50%;
+	margin-right: 20px;
+}
+
+.rate-user-info {
+	width: 50%;
+}
+
+.rate-user-info .btn  {
+	width: 50%;
+	display: block;
+	margin: 0 auto;
+}
+
+#rate-box .rate-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/* #rate-box .rate-info >* {
+	flex-grow: 0.5;
+} */
+
+#rate-box .rate-info .rate-info-all {
+	flex-grow: 2;
+}
+
+#rate-box .rate-info .rate-info-all-item {
+	display: flex;
+	align-items: center;
+	/* justify-content: space-around; */
+}
+
+#rate-box .rate-info .rate-info-tb {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.rate-info-tb-header {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+.rate-info-tb-number *{
+	font-size: 35px !important;
+  color:#FF9800;
+}
+
+.rate-info-all-item .item-star i {
+	color:#FF9800;
+	margin-left: 5px;
+}
+
+.rate-for-user {
+	display: none;
+}
+
+#rate-box .active {
+	display: block;
+}
+
+.rate-star {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+.rate-star *:nth-child(1) {
+	margin-right: 5px;
+}
+
+.rate-list-item-rate span i {
+	color:#FF9800;
+}
+
+.rate-list-item .rate-list-item-username {
+	font-weight: bold;
+}
+
+.rate-list-item .rate-list-item-username span {
+	font-weight: normal;
+}
+
+.rate-list-item-rate span:nth-child(2) {
+	margin-left: 5px;
+}
+
+.rate-list-item {
+	background-color: white;
+	padding: 20px 20px;
+	margin-top: 10px;
+}
+
+.rate-list-col {
+	padding: 0 ;
+}
+
+.rate-info {
+	padding: 10px 10px;
+}
+
+.rate-info > *{
+	border-right: 1px solid #ddd;
+	margin-right: 10px;
+	padding: 10px;
+	height: 100%;
+}
+
+.rate-info-btn{
+	height: fit-content !important;
+	padding: 5px 5px;
+	width: 150px;
+}
+
+.item-bar {
+	height: 10px;
+	width: 60%;
+	margin: 0 8px;
+	background-color: #f1f1f1;
+	position: relative;
+}
+
+.item-bar-red {
+	position: absolute;
+	top:0;
+	left: 0;
+	background-color: #dc3545;
+	height: 10px;
+}
+
+.rate-box-header {
+	padding:0;
+	padding-top:10px;
+	margin: 20px -15px;
+	border-top: 1px solid #ddd;
+}
+
 
 
 

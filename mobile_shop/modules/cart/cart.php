@@ -1,6 +1,20 @@
 <!--	Cart	-->
-
+<script>
+    function buyNow() {
+        document.getElementById('buy-now').submit();
+    }
+</script>
 <?php
+// include thư viện PHPmailer
+include "PHPMailer-master/src/PHPMailer.php";
+include "PHPMailer-master/src/Exception.php";
+include "PHPMailer-master/src/OAuth.php";
+include "PHPMailer-master/src/POP3.php";
+include "PHPMailer-master/src/SMTP.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 if (isset($_SESSION['cart'])) {
     // Cập nhật giỏ hàng khi user thay đổi số lượng
     if (isset($_POST['sbm']) && isset($_POST['qtt'])) {
@@ -59,9 +73,105 @@ if (isset($_SESSION['cart'])) {
     </div>
     <!--	End Cart	-->
 
+    <?php
+    if (
+        isset($_POST['name']) &&
+        isset($_POST['mail']) &&
+        isset($_POST['phone']) &&
+        isset($_POST['add'])
+    ) {
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $email = $_POST['mail'];
+        $address = $_POST['add'];
+
+        $str_body = "";
+
+        $str_body .= "
+            <p>
+                <b>Khách hàng:</b> $name<br>
+                <b>Điện thoại:</b> $phone<br>
+                <b>Địa chỉ:</b> $address<br>
+            </p>
+            " . PHP_EOL;
+
+        $str_body .= '
+            <table border="1" cellspacing="0" cellpadding="10" bordercolor="#305eb3" width="100%">
+                <tr bgcolor="#305eb3">
+                    <td width="70%"><b><font color="#FFFFFF">Sản phẩm</font></b></td>
+                    <td width="10%"><b><font color="#FFFFFF">Số lượng</font></b></td>
+                    <td width="20%"><b><font color="#FFFFFF">Tổng tiền</font></b></td>
+                </tr>';
+
+        // Phải query lại vì hàm fetchArray sẽ lưu lại lần fetch cuối của câu truy vấn vào bộ nhớ đệm => đã đến sp cuối nên ko hiển thị dc nx
+        $query = mysqli_query($conn, $sql);
+        $total_price_mail = 0;
+        while ($product = mysqli_fetch_array($query)) {
+            $total_price_mail += (int)$product['prd_price'] * $cart[$product['prd_id']];
+            $str_body .= '<tr>
+                    <td width="70%">' . $product["prd_name"] . '</td>
+                    <td width="10%">' . $cart[$product['prd_id']] . '</td>
+                    <td width="20%">' . number_format($product['prd_price'] * $cart[$product['prd_id']], 0, '', '.') . 'đ</td>
+                </tr>';
+        }
+
+        $str_body .= '<tr>
+                    <td colspan="2" width="70%"></td>
+                    <td width="20%"><b><font color="#FF0000">' . number_format($total_price_mail, 0, '', '.') . 'đ</font></b></td>
+                </tr>
+            </table>
+            
+            <p>
+                Cám ơn quý khách đã mua hàng tại Shop của chúng tôi, bộ phận giao hàng sẽ liên hệ với quý khách để xác nhận sau 5 phút kể từ khi đặt hàng thành công và chuyển hàng đến quý khách chậm nhất sau 24 tiếng.
+            </p>
+            ';
+
+        ///////////////////////////ADD PHPMAILER//////////////////////////////////
+        $mail = new PHPMailer(true);    // Passing 'true' enables exceptions
+        try {
+            //Server settings
+            $mail->SMTPDebug = 2;     // Enable verbose debug output
+            $mail->isSMTP();          // Set mailer to use SMTP
+            // dịch vụ mail => ở đay đang là gmail        
+            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;           // Enable SMTP authentication
+            $mail->Username = 'anhnhatdev2504@gmail.com';    // SMTP username
+            // $mail->Password = 'vietpr0sh0p';      // SMTP password
+            $mail->Password = 'aooetapcleuuisun';    // SMTP password
+            $mail->SMTPSecure = 'tls';      // Enable TLS encryption, 'ssl' also accepted
+            $mail->Port = 587;       // TCP port to connect to
+
+            //Recipients
+            $mail->CharSet = 'UTF-8';
+            $mail->setFrom('quantri.me-mobile@gmail.com', 'Me Mobile Shop');  // Gửi mail tới Mail Server
+            $mail->addAddress($email);               // Gửi mail tới mail người nhận
+            //$mail->addReplyTo('ceo.vietpro@gmail.com', 'Information');
+            $mail->addCC('quantri.me-mobile@gmail.com'); // mail của mình để nhận dc thêm mail giống khách hàng
+            //$mail->addBCC('bcc@example.com');
+
+            //Attachments
+            //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+            //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+
+            //Content
+            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = 'Xác nhận đơn hàng từ Me Mobile Shop';
+            $mail->Body    = $str_body;
+            $mail->AltBody = 'Mô tả đơn hàng';
+
+            $mail->send();
+            header('location:index.php?page_layout=success');
+        } catch (Exception $e) {
+            echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+        }
+
+        //////////////////////////////////////////////////////////////////////////
+    }
+    ?>
+
     <!--	Customer Info	-->
     <div id="customer">
-        <form method="post">
+        <form id="buy-now" method="post">
             <div class="row">
 
                 <div id="customer-name" class="col-lg-4 col-md-4 col-sm-12">
@@ -81,7 +191,7 @@ if (isset($_SESSION['cart'])) {
         </form>
         <div class="row">
             <div class="by-now col-lg-6 col-md-6 col-sm-12">
-                <a href="#">
+                <a onclick="buyNow()" href="#">
                     <b>Mua ngay</b>
                     <span>Giao hàng tận nơi siêu tốc</span>
                 </a>
