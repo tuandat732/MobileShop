@@ -76,7 +76,33 @@ if (isset($_GET['prd_id'])) {
                   <td><?php echo $product["cat_name"] ?></td>
                   <td class="form-group">
                     <a href="index.php?page_layout=edit_product&prd_id=<?php echo $product['prd_id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-                    <a href="index.php?page_layout=product&prd_id=<?php echo $product['prd_id'] ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                    <button type="button" data-toggle="modal" data-target="#Modal<?php echo $product['prd_id'] ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></button>
+
+                    <div class="modal fade " id="Modal<?php echo $product['prd_id'] ?>" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content ">
+                          <div class="modal-header">
+                            <h5 class="modal-title" style="
+                              display: inline;
+                              font-size:large;
+                              font-weight:bolder;
+                            ">
+                              Xác nhận
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa sản phẩm <?php echo $product['prd_name'] ?> ?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <a href="del_product.php?prd_id= <?php echo $product['prd_id'] ?>"><button type="button" class="btn btn-primary">Đồng ý</button></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               <?php } ?>
