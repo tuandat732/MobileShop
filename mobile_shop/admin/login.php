@@ -29,14 +29,19 @@ if (!defined('check')) header('location: index.php')
 	if (isset($_POST['sbm'])) {
 		$mail = $_POST['mail'];
 		$pass = $_POST['pass'];
-		$sql = "SELECT * FROM user WHERE user_mail='$mail' AND user_pass='$pass'";
+		//$sql = "SELECT * FROM user WHERE user_mail='$mail' AND user_pass='$pass'";
+		$sql = "SELECT * FROM user WHERE user_mail='$mail'";
+
 		$query = mysqli_query($conn, $sql);
 
 		if (mysqli_num_rows($query)) {
-			$_SESSION['mail'] = $mail;
-			$_SESSION['pass'] = $pass;
-			$_SESSION['admin'] = TRUE;
-			header('location: index.php');
+			$row = mysqli_fetch_array($query);
+			if (password_verify($pass, $row["user_pass"])) {
+				$_SESSION['mail'] = $mail;
+				$_SESSION['pass'] = $row["user_pass"];
+				$_SESSION['admin'] = TRUE;
+				header('location: index.php');
+			}
 		} else $error = '<div class="alert alert-danger"> Tài khoản không hợp lệ! </div>';
 		// "<div class=\"alert alert-danger\"> Tài khoản không hợp lệ! </div>" => dùng cái này để fix nháy kép trùng
 	}

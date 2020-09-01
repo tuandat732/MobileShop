@@ -16,6 +16,7 @@ if (isset($_POST['sbm'])) {
     if (mysqli_num_rows($queryCheckMail)) $err = 1;
     else if ($user_pass !== $user_re_pass) $err = 2;
     else {
+        $user_pass = password_hash($_POST["user_pass"], PASSWORD_BCRYPT);
         // insert new user
         $sql = "INSERT INTO user (user_full,user_mail,user_pass,user_level) 
        VALUES ('$user_full','$user_mail','$user_pass','$user_level')";

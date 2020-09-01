@@ -20,6 +20,7 @@ if (isset($_GET['user_id'])) {
         // if đã tồn tại email - nếu số email trùng  == 1 thì là chính mail hiện tại của user
         if (mysqli_num_rows($queryCheckMail) > 1) $err = TRUE;
         else {
+            $user_pass = password_hash($_POST["user_pass"], PASSWORD_BCRYPT);
             // insert new user
             $sql = "UPDATE user 
             SET user_full = '$user_full',
@@ -59,7 +60,7 @@ if (isset($_GET['user_id'])) {
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="col-md-8">
-                        <?php if($err) echo '<div class="alert alert-danger">Email đã tồn tại, Mật khẩu không khớp !</div>' ?>
+                        <?php if ($err) echo '<div class="alert alert-danger">Email đã tồn tại, Mật khẩu không khớp !</div>' ?>
                         <form role="form" method="post">
                             <div class="form-group">
                                 <label>Họ & Tên</label>
@@ -80,7 +81,7 @@ if (isset($_GET['user_id'])) {
                             <div class="form-group">
                                 <label>Quyền</label>
                                 <select name="user_level" class="form-control">
-                                    <option value=1 <?php echo $user['user_level'] == 1 ? "selected" : "" ?> >Admin</option>
+                                    <option value=1 <?php echo $user['user_level'] == 1 ? "selected" : "" ?>>Admin</option>
                                     <option value=2 <?php echo $user['user_level'] == 2 ? "selected" : "" ?>>Member</option>
                                 </select>
                             </div>
