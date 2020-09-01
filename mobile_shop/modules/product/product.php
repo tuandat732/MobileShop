@@ -12,9 +12,12 @@ if (isset($_GET['prd_id'])) {
         date_default_timezone_set('asia/Ho_Chi_Minh');
         $comm_date = date("Y-m-d H:i:s");
         $comm_details = $_POST['comm_details'];
+        $comm_permission = 0; //bình luận mới chưa được duy
+        
+        include_once("modules/product/check_comment.php"); //file xóa từ cấm
 
-        $sql = "INSERT INTO comment (comm_name,comm_mail,comm_date,comm_details,prd_id) 
-        VALUES ('$comm_name','$comm_mail','$comm_date','$comm_details','$prd_id')";
+        $sql = "INSERT INTO comment (comm_name,comm_mail,comm_date,comm_details,prd_id,comm_permission) 
+        VALUES ('$comm_name','$comm_mail','$comm_date','$comm_details','$prd_id',$comm_permission)";
         mysqli_query($conn, $sql);
     }
 
@@ -219,7 +222,7 @@ if (isset($_GET['prd_id'])) {
         <div class="col-lg-12 col-md-12 col-sm-12">
             <?php
             if (isset($prd_id)) {
-                $sql = "SELECT * FROM comment WHERE prd_id = $prd_id ORDER BY comm_id DESC";
+                $sql = "SELECT * FROM comment WHERE prd_id = $prd_id AND comm_permission=1 ORDER BY comm_id DESC";
                 $query = mysqli_query($conn, $sql);
                 while ($comment = mysqli_fetch_array($query)) { ?>
                     <div class="comment-item">

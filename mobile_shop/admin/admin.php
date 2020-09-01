@@ -119,6 +119,16 @@ if (!defined('check')) header('location: index.php')
 			case "edit_user":
 				include_once('edit_user.php');
 				break;
+				// comment
+			case "comment":
+				include_once('comment.php');
+			break;
+			case "edit_comment":
+				include_once('edit_comment.php');
+			break;
+			case "banned_word":
+				include_once('banned_word.php');
+			break;
 			default:
 				include_once('dashboard.php');
 		} else include_once('dashboard.php');
