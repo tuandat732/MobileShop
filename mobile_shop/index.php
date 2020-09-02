@@ -1,8 +1,8 @@
 <?php
-  ob_start(); 
-  // ob_start này sẽ giúp ta đặt thoải mái session_start, header vào bất cứ chỗ nào chứ ko bắt buộc ở trên cùng, ko dc dưới html code và print
-  session_start();
-  include_once("config/connect.php");
+ob_start();
+// ob_start này sẽ giúp ta đặt thoải mái session_start, header vào bất cứ chỗ nào chứ ko bắt buộc ở trên cùng, ko dc dưới html code và print
+session_start();
+include_once("config/connect.php");
 ?>
 
 <!DOCTYPE html>
@@ -76,6 +76,9 @@
                 break;
               case "success":
                 include_once('modules/cart/success.php');
+                break;
+              case "review":
+                include_once('modules/product/review.php');
                 break;
               default:
                 include_once('modules/product/feature.php');

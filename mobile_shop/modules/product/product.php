@@ -12,8 +12,8 @@ if (isset($_GET['prd_id'])) {
         date_default_timezone_set('asia/Ho_Chi_Minh');
         $comm_date = date("Y-m-d H:i:s");
         $comm_details = $_POST['comm_details'];
-        $comm_permission = 0; //bình luận mới chưa được duy
-        
+        $comm_permission = 0; //bình luận mới chưa được duyệt
+
         include_once("modules/product/check_comment.php"); //file xóa từ cấm
 
         $sql = "INSERT INTO comment (comm_name,comm_mail,comm_date,comm_details,prd_id,comm_permission) 
@@ -29,9 +29,12 @@ if (isset($_GET['prd_id'])) {
         $rate_cmt = $_POST['rate_cmt'];
         date_default_timezone_set('asia/Ho_Chi_Minh');
         $rate_time = date("Y-m-d H:i:s");
-
-        $sql = "INSERT INTO rate (rate_name,rate_mail,rate_star,rate_cmt,prd_id,rate_time) 
-        VALUES ('$rate_name','$rate_mail',$rate_star,'$rate_cmt','$prd_id','$rate_time')";
+        $rate_image = $_FILES['rate_image']['name'];
+        $tmp_name = $_FILES['rate_image']['tmp_name'];
+        move_uploaded_file($tmp_name, 'admin/img/rates/' . $rate_image);
+    
+        $sql = "INSERT INTO rate (rate_name,rate_mail,rate_star,rate_cmt,prd_id,rate_time,rate_image) 
+            VALUES ('$rate_name','$rate_mail',$rate_star,'$rate_cmt','$prd_id','$rate_time','$rate_image')";
         mysqli_query($conn, $sql);
     }
 
@@ -56,11 +59,11 @@ if (isset($_GET['prd_id'])) {
             if ($rate['rate_star'] == 5) $total_5_star += 1;
         }
         $total_rate_tb = round($total_rate / $total, 2); // rate trung bình
-        $total_5_star_tb = ($total_5_star/$total)*100; // phần trăm đánh giá 5 sao
-        $total_4_star_tb = ($total_4_star/$total)*100; // phần trăm đánh giá 4 sao
-        $total_3_star_tb = ($total_3_star/$total)*100; // phần trăm đánh giá 3 sao
-        $total_2_star_tb = ($total_2_star/$total)*100; // phần trăm đánh giá 2 sao
-        $total_1_star_tb = ($total_1_star/$total)*100; // phần trăm đánh giá 1 sao
+        $total_5_star_tb = ($total_5_star / $total) * 100; // phần trăm đánh giá 5 sao
+        $total_4_star_tb = ($total_4_star / $total) * 100; // phần trăm đánh giá 4 sao
+        $total_3_star_tb = ($total_3_star / $total) * 100; // phần trăm đánh giá 3 sao
+        $total_2_star_tb = ($total_2_star / $total) * 100; // phần trăm đánh giá 2 sao
+        $total_1_star_tb = ($total_1_star / $total) * 100; // phần trăm đánh giá 1 sao
     }
 }
 ?>
@@ -91,7 +94,7 @@ if (isset($_GET['prd_id'])) {
     </div>
 
     <!-- RATE BOX -->
-    <h3 class="rate-box-header"><?php echo $total?> đánh giá về <?php echo $product['prd_name'] ?></h3>
+    <h3 class="rate-box-header"><?php echo $total ?> đánh giá về <?php echo $product['prd_name'] ?></h3>
     <div id="rate-box" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 rate-info">
             <div class="rate-info-tb">
@@ -101,27 +104,37 @@ if (isset($_GET['prd_id'])) {
             <div class="rate-info-all">
                 <div class="rate-info-all-item">
                     <div class="item-star"><span>5</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar"><div class="item-bar-red" style="width:<?php echo $total_5_star_tb ?>%"></div></div>
+                    <div class="item-bar">
+                        <div class="item-bar-red" style="width:<?php echo $total_5_star_tb ?>%"></div>
+                    </div>
                     <div class="item-number"><?php echo $total_5_star ?> đánh giá</div>
                 </div>
                 <div class="rate-info-all-item">
                     <div class="item-star"><span>4</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar"><div class="item-bar-red" style="width:<?php echo $total_4_star_tb ?>%"></div></div>
+                    <div class="item-bar">
+                        <div class="item-bar-red" style="width:<?php echo $total_4_star_tb ?>%"></div>
+                    </div>
                     <div class="item-number"><?php echo $total_4_star ?> đánh giá</div>
                 </div>
                 <div class="rate-info-all-item">
                     <div class="item-star"><span>3</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar"><div class="item-bar-red" style="width:<?php echo $total_3_star_tb ?>%"></div></div>
+                    <div class="item-bar">
+                        <div class="item-bar-red" style="width:<?php echo $total_3_star_tb ?>%"></div>
+                    </div>
                     <div class="item-number"><?php echo $total_3_star ?> đánh giá</div>
                 </div>
                 <div class="rate-info-all-item">
                     <div class="item-star"><span>2</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar"><div class="item-bar-red" style="width:<?php echo $total_2_star_tb ?>%"></div></div>
+                    <div class="item-bar">
+                        <div class="item-bar-red" style="width:<?php echo $total_2_star_tb ?>%"></div>
+                    </div>
                     <div class="item-number"><?php echo $total_2_star ?> đánh giá</div>
                 </div>
                 <div class="rate-info-all-item">
                     <div class="item-star"><span>1</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar"><div class="item-bar-red" style="width:<?php echo $total_1_star_tb ?>%"></div></div>
+                    <div class="item-bar">
+                        <div class="item-bar-red" style="width:<?php echo $total_1_star_tb ?>%"></div>
+                    </div>
                     <div class="item-number"><?php echo $total_1_star ?> đánh giá</div>
                 </div>
             </div>
@@ -130,7 +143,7 @@ if (isset($_GET['prd_id'])) {
             </div>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 rate-for-user">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div class="rate-star">
                     <div class="rate-star-header">Vui lòng chọn đánh giá</div>
                     <div id="stars">
@@ -143,9 +156,15 @@ if (isset($_GET['prd_id'])) {
                 </div>
                 <input type="text" id="rate-star-value" name="rate_star" value="0" hidden>
                 <div class="rate-user">
-                    <div class="form-group rate-detail">
-                        <label>Nội dung:</label>
-                        <textarea name="rate_cmt" required rows="8" class="form-control"></textarea>
+                    <div class="rate-detail">
+                        <div class="form-group">
+                            <label>Nội dung:</label>
+                            <textarea name="rate_cmt" required rows="8" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload hình ảnh:</label>
+                            <input name="rate_image" type="file" class="form-control">
+                        </div>
                     </div>
                     <div class="rate-user-info">
                         <div class="form-group">
@@ -168,7 +187,7 @@ if (isset($_GET['prd_id'])) {
     <div id="rate-list" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 rate-list-col">
             <?php
-            $sql = "SELECT * FROM rate WHERE prd_id = $prd_id";
+            $sql = "SELECT * FROM rate WHERE prd_id = $prd_id LIMIT 4";
             $query = mysqli_query($conn, $sql);
             while ($rate = mysqli_fetch_array($query)) { ?>
                 <div class="rate-list-item">
@@ -186,14 +205,18 @@ if (isset($_GET['prd_id'])) {
                         </span>
                         <span><?php echo $rate['rate_cmt'] ?></span>
                     </div>
+                    <?php if ($rate['rate_image']) { ?>
+                        <div class="mt-3"><img style="width:100px" src="admin/img/rates/<?php echo $rate['rate_image'] ?>" alt=""></div>
+                    <?php } ?>
                 </div>
             <?php }
             ?>
         </div>
+        <a class="btn btn-danger mt-3" href="index.php?page_layout=review&prd_id=<?php echo $prd_id ?>">Xem tất cả đánh giá</a>
     </div>
     <!-- end list user rate -->
 
-    <!--	Comment	-->
+    <!--	Comment form	-->
     <div id="comment" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <h3>Bình luận sản phẩm</h3>
@@ -215,24 +238,57 @@ if (isset($_GET['prd_id'])) {
         </div>
     </div>
     <!-- </div> -->
-    <!--	End Comment	-->
+    <!--	End Comment form	-->
 
     <!--	Comments List	-->
     <div id="comments-list" class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 accordion" id="accordionExample">
             <?php
             if (isset($prd_id)) {
-                $sql = "SELECT * FROM comment WHERE prd_id = $prd_id AND comm_permission=1 ORDER BY comm_id DESC";
+                $sql = "SELECT * FROM comment WHERE prd_id = $prd_id AND comm_permission=1 AND rep_comm_id IS NULL ORDER BY comm_id DESC";
                 $query = mysqli_query($conn, $sql);
                 while ($comment = mysqli_fetch_array($query)) { ?>
-                    <div class="comment-item">
-                        <ul>
+                    <div class="comment-item mb-3 p-2" style="border-bottom: 1px solid #ddd;">
+                        <ul style="margin-bottom: 0;">
                             <li><b><?php echo $comment['comm_name'] ?></b></li>
                             <li><?php echo $comment['comm_date'] ?></li>
                             <li>
                                 <p><?php echo $comment['comm_details'] ?></p>
                             </li>
+                            <li style="border-bottom: none;">
+                                <ul class="reply-cmt-list">
+                                <?php
+                                    $rep_comm_id = $comment['comm_id'];
+                                    $sql_rep = "SELECT * FROM comment WHERE rep_comm_id=$rep_comm_id AND comm_permission=1";
+                                    $query_rep = mysqli_query($conn, $sql_rep);
+                                    while ($rep_cmt = mysqli_fetch_array($query_rep)) { ?>
+                                        <li class="rep-cmt-item">
+                                            <div><b><?php echo $rep_cmt['comm_name'] ?></b></div>
+                                            <div><?php echo $rep_cmt['comm_date'] ?></div>
+                                            <div><?php echo $rep_cmt['comm_details'] ?></div>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </li>
                         </ul>
+                        <a class="text-danger" data-toggle="collapse" href="#form-rep-cmt-<?php echo $comment['comm_id'] ?>" aria-expanded="false" aria-controls="form-rep-cmt-<?php echo $comment['comm_id'] ?>">
+                            Trả lời
+                        </a>
+                        <form style="transition: all 0.2s;" method="post" action="modules/product/reply_cmt.php?prd_id=<?php echo $prd_id ?>&comm_id=<?php echo $comment['comm_id'] ?>" data-parent="#accordionExample" class="collapse mt-3 form-rep-cmt" id="form-rep-cmt-<?php echo $comment['comm_id'] ?>">
+                            <div class="form-group">
+                                <label>Tên:</label>
+                                <input name="rep_name" required type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input name="rep_mail" required type="email" class="form-control" id="pwd">
+                            </div>
+                            <div class="form-group">
+                                <label>Nội dung:</label>
+                                <textarea name="rep-cmt-value" required rows="4" class="form-control"></textarea>
+                            </div>
+                            <input type="submit" name="sbm" class="btn btn-danger mt-2" value="Gửi">
+                        </form>
                     </div>
             <?php }
             }

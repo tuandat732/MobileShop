@@ -21,17 +21,18 @@ if (!defined('check')) header('location: index.php')
     </div>
     <!--/.row-->
     <?php
-    if(isset($_GET["comm_permission"]))
-        if($_GET["comm_permission"]==0)
-            $comm_permission=1;
+    if (isset($_GET["comm_permission"]))
+        if ($_GET["comm_permission"] == 0)
+            $comm_permission = 1;
         else
-            $comm_permission=0;
+            $comm_permission = 0;
     else
-        $comm_permission=0;
+        $comm_permission = 0;
     ?>
     <div id="toolbar" class="btn-group">
         <a href="index.php?page_layout=comment&comm_permission=<?php echo $comm_permission ?>" class="btn btn-success">
-            <i class="glyphicon glyphicon-refresh"></i> <?php if($comm_permission==0) echo "Xem bình luận đã duyệt"; else echo "Xem bình luận chưa duyệt"?>
+            <i class="glyphicon glyphicon-refresh"></i> <?php if ($comm_permission == 0) echo "Xem bình luận đã duyệt";
+                                                        else echo "Xem bình luận chưa duyệt" ?>
         </a>
     </div>
     <div class="row">
@@ -86,8 +87,8 @@ if (!defined('check')) header('location: index.php')
                                     <td style=""><?php echo $comment["comm_details"] ?></td>
                                     <td class="form-group">
                                         <a href="index.php?page_layout=edit_comment&comm_id=<?php echo $comment["comm_id"] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-                                        <?php if($comm_permission==0){ ?> 
-                                        <a href="add_comment.php?comm_id=<?php echo $comment["comm_id"] ?>&page=<?php echo $page ?>" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
+                                        <?php if ($comm_permission == 0) { ?>
+                                            <a href="add_comment.php?comm_id=<?php echo $comment["comm_id"] ?>&page=<?php echo $page ?>" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
                                         <?php } ?>
                                         <a href="del_comment.php?comm_id=<?php echo $comment["comm_id"] ?>&page=<?php echo $page ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                                     </td>
