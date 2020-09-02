@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once("../../config/connect.php");
+ob_start();
 if (isset($_POST['sbm']) && isset($_GET['comm_id'])) {
   $prd_id = $_GET['prd_id'];
   $rep_comm_id = $_GET['comm_id'];
@@ -15,6 +16,6 @@ if (isset($_POST['sbm']) && isset($_GET['comm_id'])) {
   $sql = "INSERT INTO comment (rep_comm_id,comm_date,comm_details,comm_mail,comm_name,prd_id) 
     VALUES ($rep_comm_id,'$comm_date','$comm_details','$comm_mail','$comm_name',$prd_id)";
   mysqli_query($conn, $sql);
-  header("locaion: ../../index.php?page_layout=product&prd_id=".$prd_id);
+  header("location: ../../index.php?page_layout=product&prd_id=".$prd_id);
 }
 ?>

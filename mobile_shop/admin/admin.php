@@ -76,8 +76,8 @@ if (!defined('check')) header('location: index.php')
 					</svg>Quản lý sản phẩm</a></li>
 			<li><a href="?page_layout=comment"><svg class="glyph stroked two messages">
 						<use xlink:href="#stroked-two-messages" /></svg> Quản lý bình luận</a></li>
-			<li><a href="?page_layout=ads"><svg class="glyph stroked chain">
-						<use xlink:href="#stroked-chain" /></svg> Quản lý quảng cáo</a></li>
+			<li><a href="?page_layout=banned_word"><svg class="glyph stroked chain">
+						<use xlink:href="#stroked-chain" /></svg> Quản lý từ cấm</a></li>
 			<li><a href="?page_layout=setting"><svg class="glyph stroked gear">
 						<use xlink:href="#stroked-gear" /></svg> Cấu hình</a></li>
 		</ul>
