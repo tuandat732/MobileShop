@@ -61,14 +61,16 @@ if (!defined('check')) header('location: index.php')
 
 							$page_prev = $page - 1;
 							if ($page_prev <= 0) $page_prev = 1;
-							$list_pages .= '<li class="page-item"><a class="page-link" href="index.php?page_layout=banned_word&page=' . $page_prev . '">&laquo;</a></li>';
+							if($page>1)
+								$list_pages .= '<li class="page-item"><a class="page-link" href="index.php?page_layout=banned_word&page=' . $page_prev . '">&laquo;</a></li>';
 
 							for ($i = 1; $i <= $total_pages; $i++)
 								$list_pages .= '<li class="page-item"><a class="page-link" href="index.php?page_layout=banned_word&page=' . $i . '">' . $i . '</a></li>';
 
 							$page_after = $page + 1;
 							if ($page_after > $total_pages) $page_after = $total_pages;
-							$list_pages .= '<li class="page-item"><a class="page-link" href="index.php?page_layout=banned_word&page=' . $page_after . '">&raquo;</a></li>';
+							if($page<$total_pages)
+								$list_pages .= '<li class="page-item"><a class="page-link" href="index.php?page_layout=banned_word&page=' . $page_after . '">&raquo;</a></li>';
 
 							$sql = "SELECT * FROM banned_word ORDER BY ban_id ASC LIMIT $per_page,$row_per_page";
 							$query = mysqli_query($conn, $sql);

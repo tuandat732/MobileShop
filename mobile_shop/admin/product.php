@@ -44,13 +44,7 @@ if (!defined('check')) header('location: index.php');
             </thead>
             <tbody>
               <?php
-              // Code phân trang
-              $row_per_page = 5;
-              $page = 1;
-              if (isset($_GET['page'])) {
-                $page = $_GET['page'];
-              }
-              $per_row = ($page - 1) * $row_per_page;
+              
               // fetch dữ liệu product từ db
               $sql = "SELECT * FROM product INNER JOIN category ON product.cat_id = category.cat_id ORDER BY prd_id DESC LIMIT $per_row, $row_per_page";
               $query = mysqli_query($conn, $sql);
@@ -104,8 +98,16 @@ if (!defined('check')) header('location: index.php');
         </div>
 
         <?php
-        // Thanh phân trang
-        $sql = "SELECT * FROM product";
+        // Code phân trang
+        $row_per_page = 5;
+        $page = 1;
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+        }
+
+        $sql = "SELECT * FROM comment
+                WHERE prd_id=$prd_id AND comm_permission=1 AND rep_comm_id IS NULL
+                ";
         $query = mysqli_query($conn, $sql);
         $total_products = mysqli_num_rows($query);
         $total_pages = ceil($total_products / $row_per_page);
@@ -113,12 +115,13 @@ if (!defined('check')) header('location: index.php');
         $list_pages = ''; // gán thanh phân trang vào 1 biến để có thể gọi dc ở nhiều nơi mà cần đến
         $page_prev = $page == 1 ? 1 : $page - 1;
         $page_next = $page == $total_pages ? $total_pages : $page + 1;
-        $list_pages .= $page_prev == 1 ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=product&page=' . $page_prev . '">&laquo;</a></li>';
+        $list_pages .= $page == 1 ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=product&prd_id=' . $prd_id . '&page=' . $page_prev . '">&laquo;</a></li>';
         for ($page_loop = 1; $page_loop <= $total_pages; $page_loop++) {
-          $active = $page_loop == $page ? 'active' : '';
-          $list_pages .= '<li class="page-item ' . $active . '"><a class="page-link" href="index.php?page_layout=product&page=' . $page_loop . '">' . $page_loop . '</a></li>';
+            $active = $page_loop == $page ? 'active' : '';
+            $list_pages .= '<li class="page-item ' . $active . '"><a class="page-link" href="index.php?page_layout=product&prd_id=' . $prd_id . '&page=' . $page_loop . '">' . $page_loop . '</a></li>';
         }
-        $list_pages .= $page_next == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=product&page=' . $page_next . '">&raquo;</a></li>';
+        if ($total_pages != 0)
+            $list_pages .= $page == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=product&prd_id=' . $prd_id . '&page=' . $page_next . '">&raquo;</a></li>';
         ?>
 
         <div class="panel-footer">

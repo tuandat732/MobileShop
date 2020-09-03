@@ -100,12 +100,13 @@ if (!defined('check')) header('location: index.php');
 				$list_pages = ''; // gán thanh phân trang vào 1 biến để có thể gọi dc ở nhiều nơi mà cần đến
 				$page_prev = $page == 1 ? 1 : $page - 1;
 				$page_next = $page == $total_pages ? $total_pages : $page + 1;
-				$list_pages .= $page_prev == 1 ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&page=' . $page_prev . '">&laquo;</a></li>';
+				$list_pages .= $page == 1 ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&page=' . $page_prev . '">&laquo;</a></li>';
 				for ($page_loop = 1; $page_loop <= $total_pages; $page_loop++) {
 					$active = $page_loop == $page ? 'active' : '';
 					$list_pages .= '<li class="page-item ' . $active . '"><a class="page-link" href="index.php?page_layout=category&page=' . $page_loop . '">' . $page_loop . '</a></li>';
 				}
-				$list_pages .= $page_next == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&page=' . $page_next . '">&raquo;</a></li>';
+				if($total_page!=0)
+					$list_pages .= $page == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&page=' . $page_next . '">&raquo;</a></li>';
 				?>
 
 				<div class="panel-footer">

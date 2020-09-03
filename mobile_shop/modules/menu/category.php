@@ -2,6 +2,30 @@
 if (isset($_GET['cat_id'])) {
     $cat_id = $_GET['cat_id'];
 
+    // Code phân trang
+    $row_per_page = 5;
+    $page = 1;
+    if (isset($_GET['page'])) {
+      $page = $_GET['page'];
+    }
+
+    $sql = "SELECT * FROM product
+            WHERE cat_id=$cat_id";
+    $query = mysqli_query($conn, $sql);
+    $total_products = mysqli_num_rows($query);
+    $total_pages = ceil($total_products / $row_per_page);
+
+    $list_pages = ''; // gán thanh phân trang vào 1 biến để có thể gọi dc ở nhiều nơi mà cần đến
+    $page_prev = $page == 1 ? 1 : $page - 1;
+    $page_next = $page == $total_pages ? $total_pages : $page + 1;
+    $list_pages .= $page == 1 ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&cat_id='.$cat_id.'&page=' . $page_prev . '">&laquo;</a></li>';
+    for ($page_loop = 1; $page_loop <= $total_pages; $page_loop++) {
+        $active = $page_loop == $page ? 'active' : '';
+        $list_pages .= '<li class="page-item ' . $active . '"><a class="page-link" href="index.php?page_layout=category&cat_id='.$cat_id.'&page=' . $page_loop . '">' . $page_loop . '</a></li>';
+    }
+    if($total_pages!=0)
+        $list_pages .= $page == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&cat_id='.$cat_id.'&page=' . $page_next . '">&raquo;</a></li>';
+
     // fetch product with cat_id = $cat_id
     $sql_product = "SELECT * FROM product WHERE cat_id = '$cat_id'";
     $query_product = mysqli_query($conn, $sql_product);
