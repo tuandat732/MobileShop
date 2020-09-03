@@ -105,8 +105,7 @@ if (!defined('check')) header('location: index.php');
 					$active = $page_loop == $page ? 'active' : '';
 					$list_pages .= '<li class="page-item ' . $active . '"><a class="page-link" href="index.php?page_layout=category&page=' . $page_loop . '">' . $page_loop . '</a></li>';
 				}
-				if($total_page!=0)
-					$list_pages .= $page == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&page=' . $page_next . '">&raquo;</a></li>';
+				$list_pages .= $page == $total_pages ? '' : '<li class="page-item"><a class="page-link" href="index.php?page_layout=category&page=' . $page_next . '">&raquo;</a></li>';
 				?>
 
 				<div class="panel-footer">
