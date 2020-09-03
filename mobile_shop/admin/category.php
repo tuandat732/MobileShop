@@ -1,13 +1,6 @@
 <?php
 if (!defined('check')) header('location: index.php');
 // nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn
-
-if (isset($_GET['cat_id'])) {
-	$cat_id = $_GET['cat_id'];
-	$sql = "DELETE FROM category WHERE cat_id = '$cat_id'";
-	$query = mysqli_query($conn, $sql);
-	header('location: index.php?page_layout=category');
-}
 ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -62,7 +55,7 @@ if (isset($_GET['cat_id'])) {
 									<td style=""><?php echo $category["cat_id"] ?></td>
 									<td style=""><?php echo $category["cat_name"] ?></td>
 									<td class="form-group">
-										<a href="index.php?page_layout=edit_product&cat_id=<?php echo $category['cat_id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+										<a href="index.php?page_layout=edit_category&cat_id=<?php echo $category['cat_id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
 										<button type="button" data-toggle="modal" data-target="#Modal<?php echo $category['cat_id'] ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></button>
 										<div class="modal fade" id="Modal<?php echo $category['cat_id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog">
@@ -84,7 +77,7 @@ if (isset($_GET['cat_id'])) {
 													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-														<a href="del_category.php?cat_id= <?php echo $category['cat_id'] ?>"><button type="button" class="btn btn-primary">Đồng ý</button></a>
+														<a href="del_category.php?cat_id=<?php echo $category['cat_id'] ?>"><button type="button" class="btn btn-primary">Đồng ý</button></a>
 													</div>
 												</div>
 											</div>

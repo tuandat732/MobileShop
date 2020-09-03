@@ -22,15 +22,12 @@ if (!defined('check')) header('location: index.php')
     <!--/.row-->
     <?php
     if (isset($_GET["comm_permission"]))
-        if ($_GET["comm_permission"] == 0)
-            $comm_permission = 1;
-        else
-            $comm_permission = 0;
+        $comm_permission = $_GET['comm_permission'];
     else
         $comm_permission = 0;
     ?>
     <div id="toolbar" class="btn-group">
-        <a href="index.php?page_layout=comment&comm_permission=<?php echo $comm_permission ?>" class="btn btn-success">
+        <a href="index.php?page_layout=comment&comm_permission=<?php echo $comm_permission == 0 ? 1 : 0 ?>" class="btn btn-success">
             <i class="glyphicon glyphicon-refresh"></i> <?php if ($comm_permission == 0) echo "Xem bình luận đã duyệt";
                                                         else echo "Xem bình luận chưa duyệt" ?>
         </a>

@@ -29,10 +29,11 @@ if (isset($_GET['prd_id'])) {
         $rate_cmt = $_POST['rate_cmt'];
         date_default_timezone_set('asia/Ho_Chi_Minh');
         $rate_time = date("Y-m-d H:i:s");
+
         $rate_image = $_FILES['rate_image']['name'];
         $tmp_name = $_FILES['rate_image']['tmp_name'];
         move_uploaded_file($tmp_name, 'admin/img/rates/' . $rate_image);
-    
+
         $sql = "INSERT INTO rate (rate_name,rate_mail,rate_star,rate_cmt,prd_id,rate_time,rate_image) 
             VALUES ('$rate_name','$rate_mail',$rate_star,'$rate_cmt','$prd_id','$rate_time','$rate_image')";
         mysqli_query($conn, $sql);
@@ -42,28 +43,22 @@ if (isset($_GET['prd_id'])) {
     $sql = "SELECT * FROM rate WHERE prd_id = $prd_id";
     $query = mysqli_query($conn, $sql);
     $total = mysqli_num_rows($query); // tổng số lượt đánh giá
-    $total_1_star = 0; // tổng số lượt đánh giá 1 sao
-    $total_2_star = 0;
-    $total_3_star = 0;
-    $total_4_star = 0;
-    $total_5_star = 0;
-    if ($total === 0) $total_rate_tb = 0;
+    $total_number_star = array(0, 0, 0, 0, 0, 0); // tổng số lượt đánh giá theo sao
+    $total_number_star_tb = array(); // phần trăm đánh giá giá từng sao
+    if ($total === 0) $total_rate_tb = 0; // số sao đánh giá trung bình
     else {
         $total_rate = 0; // tổng tất cả sao
         while ($rate = mysqli_fetch_array($query)) {
             $total_rate += (int)($rate['rate_star']);
-            if ($rate['rate_star'] == 1) $total_1_star += 1;
-            if ($rate['rate_star'] == 2) $total_2_star += 1;
-            if ($rate['rate_star'] == 3) $total_3_star += 1;
-            if ($rate['rate_star'] == 4) $total_4_star += 1;
-            if ($rate['rate_star'] == 5) $total_5_star += 1;
+            if ($rate['rate_star'] == 1) $total_number_star[1] += 1; // số lượt đánh giá từng sao
+            if ($rate['rate_star'] == 2) $total_number_star[2] += 1;
+            if ($rate['rate_star'] == 3) $total_number_star[3] += 1;
+            if ($rate['rate_star'] == 4) $total_number_star[4] += 1;
+            if ($rate['rate_star'] == 5) $total_number_star[5] += 1;
         }
         $total_rate_tb = round($total_rate / $total, 2); // rate trung bình
-        $total_5_star_tb = ($total_5_star / $total) * 100; // phần trăm đánh giá 5 sao
-        $total_4_star_tb = ($total_4_star / $total) * 100; // phần trăm đánh giá 4 sao
-        $total_3_star_tb = ($total_3_star / $total) * 100; // phần trăm đánh giá 3 sao
-        $total_2_star_tb = ($total_2_star / $total) * 100; // phần trăm đánh giá 2 sao
-        $total_1_star_tb = ($total_1_star / $total) * 100; // phần trăm đánh giá 1 sao
+        for ($i = 1; $i <= 5; $i++) // phần trăm đánh giá từng sao
+            $total_number_star_tb[$i] = ($total_number_star[$i] / $total) * 100;
     }
 }
 ?>
@@ -101,42 +96,19 @@ if (isset($_GET['prd_id'])) {
                 <div class="rate-info-tb-header">SAO TRUNG BÌNH</div>
                 <div class="rate-info-tb-number"><span><?php echo $total_rate_tb ?></span><i class="fa fa-star"></i></div>
             </div>
+            <!-- thanh bar hiển thị phần trăm -->
             <div class="rate-info-all">
-                <div class="rate-info-all-item">
-                    <div class="item-star"><span>5</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar">
-                        <div class="item-bar-red" style="width:<?php echo $total_5_star_tb ?>%"></div>
+                <?php
+                for ($i = 5; $i >= 1; $i--) { ?>
+                    <div class="rate-info-all-item">
+                        <div class="item-star"><span><?php echo $i ?></span><i class="fa fa-star"></i></div>
+                        <div class="item-bar">
+                            <div class="item-bar-red" style="width:<?php echo $total_number_star_tb[$i] ?>%"></div>
+                        </div>
+                        <div class="item-number"><?php echo $total_number_star[$i] ?> đánh giá</div>
                     </div>
-                    <div class="item-number"><?php echo $total_5_star ?> đánh giá</div>
-                </div>
-                <div class="rate-info-all-item">
-                    <div class="item-star"><span>4</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar">
-                        <div class="item-bar-red" style="width:<?php echo $total_4_star_tb ?>%"></div>
-                    </div>
-                    <div class="item-number"><?php echo $total_4_star ?> đánh giá</div>
-                </div>
-                <div class="rate-info-all-item">
-                    <div class="item-star"><span>3</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar">
-                        <div class="item-bar-red" style="width:<?php echo $total_3_star_tb ?>%"></div>
-                    </div>
-                    <div class="item-number"><?php echo $total_3_star ?> đánh giá</div>
-                </div>
-                <div class="rate-info-all-item">
-                    <div class="item-star"><span>2</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar">
-                        <div class="item-bar-red" style="width:<?php echo $total_2_star_tb ?>%"></div>
-                    </div>
-                    <div class="item-number"><?php echo $total_2_star ?> đánh giá</div>
-                </div>
-                <div class="rate-info-all-item">
-                    <div class="item-star"><span>1</span><i class="fa fa-star"></i></div>
-                    <div class="item-bar">
-                        <div class="item-bar-red" style="width:<?php echo $total_1_star_tb ?>%"></div>
-                    </div>
-                    <div class="item-number"><?php echo $total_1_star ?> đánh giá</div>
-                </div>
+                <?php }
+                ?>
             </div>
             <div class="rate-info-btn btn btn-danger">
                 Gửi đánh giá của bạn
@@ -257,7 +229,7 @@ if (isset($_GET['prd_id'])) {
                             </li>
                             <li style="border-bottom: none;">
                                 <ul class="reply-cmt-list">
-                                <?php
+                                    <?php
                                     $rep_comm_id = $comment['comm_id'];
                                     $sql_rep = "SELECT * FROM comment WHERE rep_comm_id=$rep_comm_id AND comm_permission=1";
                                     $query_rep = mysqli_query($conn, $sql_rep);
@@ -321,7 +293,7 @@ if (isset($_GET['prd_id'])) {
 
     // hiển thị sao
     let inputRateValue = document.getElementById('rate-star-value'); // trỏ đến input rate-star bị ẩn
-    let index = -1;
+    let index = -1; // vị trí sao mình đã chọn
     let stars = document.getElementById('stars').children; // get tất cả sao // 5 sao
     for (let i = 0; i < stars.length; i++) {
         stars[i].addEventListener('mouseover', () => { // thêm sự kiện di chuột vào từng ngôi sao

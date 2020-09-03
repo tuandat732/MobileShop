@@ -1,14 +1,6 @@
 <?php
 if (!defined('check')) header('location: index.php');
 // nếu chỉ muốn hiện lỗi thì dùng die("lỗi") => chương trình sẽ dừng luôn	
-
-// DELETE PRODUCT
-if (isset($_GET['prd_id'])) {
-  $prd_id = $_GET['prd_id'];
-  $sql = "DELETE FROM product WHERE prd_id = '$prd_id'";
-  $query = mysqli_query($conn, $sql);
-  header('location: index.php?page_layout=product');
-}
 ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -76,6 +68,7 @@ if (isset($_GET['prd_id'])) {
                   <td><?php echo $product["cat_name"] ?></td>
                   <td class="form-group">
                     <a href="index.php?page_layout=edit_product&prd_id=<?php echo $product['prd_id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <!-- thẻ button xóa sản phẩm  -->
                     <button type="button" data-toggle="modal" data-target="#Modal<?php echo $product['prd_id'] ?>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></button>
 
                     <div class="modal fade " id="Modal<?php echo $product['prd_id'] ?>" aria-hidden="true">
@@ -98,7 +91,7 @@ if (isset($_GET['prd_id'])) {
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                            <a href="del_product.php?prd_id= <?php echo $product['prd_id'] ?>"><button type="button" class="btn btn-primary">Đồng ý</button></a>
+                            <a href="del_product.php?prd_id=<?php echo $product['prd_id'] ?>"><button type="button" class="btn btn-primary">Đồng ý</button></a>
                           </div>
                         </div>
                       </div>
@@ -134,13 +127,6 @@ if (isset($_GET['prd_id'])) {
               <!-- render thanh phân trang -->
               <?php echo $list_pages ?>
             </ul>
-            <!-- <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul> -->
           </nav>
         </div>
       </div>

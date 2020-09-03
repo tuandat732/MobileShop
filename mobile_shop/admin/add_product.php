@@ -117,7 +117,7 @@ if (isset($_POST["sbm"])) {
                             <input required name="prd_image" type="file">
                             <br>
                             <div>
-                                <img src="img/product/<?php echo $_FILES['prd_image']['name'] ?>">
+                                <img src="img/products/Nokia-1-red.png">
                             </div>
                         </div>
                         <div class="form-group">
