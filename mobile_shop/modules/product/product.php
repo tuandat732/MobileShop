@@ -159,7 +159,7 @@ if (isset($_GET['prd_id'])) {
     <div id="rate-list" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 rate-list-col">
             <?php
-            $sql = "SELECT * FROM rate WHERE prd_id = $prd_id LIMIT 4";
+            $sql = "SELECT * FROM rate WHERE prd_id = $prd_id ORDER BY rate_id DESC LIMIT 4";
             $query = mysqli_query($conn, $sql);
             while ($rate = mysqli_fetch_array($query)) { ?>
                 <div class="rate-list-item">

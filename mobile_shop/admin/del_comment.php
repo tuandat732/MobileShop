@@ -1,6 +1,6 @@
 <?php
 session_start();
-    include_once("connect.php");
+    include_once("../config/connect.php");
 
     if(isset($_SESSION['mail']) && isset($_SESSION['pass'])) {
         $comm_id=$_GET["comm_id"];

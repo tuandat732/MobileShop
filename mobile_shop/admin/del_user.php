@@ -9,7 +9,7 @@ if (isset($_SESSION['mail']) && isset($_SESSION['pass'])) {
     $user_id = $_GET['user_id'];
     $sql = "DELETE FROM user WHERE user_id = '$user_id'";
     $query = mysqli_query($conn, $sql);
-    header('location: index.php?page_layout=category');
+    header('location: index.php?page_layout=user');
   }
 }
 ?>

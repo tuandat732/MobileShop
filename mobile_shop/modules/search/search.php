@@ -22,8 +22,8 @@ if (isset($_POST['keyword'])) {
             if ($count === 0) echo '<div class="product-list card-deck">'; ?>
 
             <div class="product-item card text-center">
-                <a href="index.php?page_layout=product?prd_id=<?php echo $product['prd_id'] ?>"><img src="admin/img/products/<?php echo $product['prd_image'] ?>"></a>
-                <h4><a href="index.php?page_layout=product?prd_id=<?php echo $product['prd_id'] ?>"><?php echo $product['prd_name'] ?></a></h4>
+                <a href="index.php?page_layout=product&prd_id=<?php echo $product['prd_id'] ?>"><img src="admin/img/products/<?php echo $product['prd_image'] ?>"></a>
+                <h4><a href="index.php?page_layout=product&prd_id=<?php echo $product['prd_id'] ?>"><?php echo $product['prd_name'] ?></a></h4>
                 <p>Giá Bán: <span><?php echo number_format($product['prd_price'], 2, ',', '.') ?>đ</span></p>
             </div>
 
